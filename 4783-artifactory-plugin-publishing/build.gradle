@@ -1,0 +1,70 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+    id 'com.jfrog.artifactory' version '4.7.0'
+}
+
+group = 'org.gradle.sample'
+version = '0.0.1'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+def manualPublishing = project.hasProperty('manualPublishing')
+
+gradlePlugin {
+    automatedPublishing = !manualPublishing
+    plugins {
+        sample {
+            id = 'org.gradle.sample.simple-plugin'
+            implementationClass = 'org.gradle.sample.SimplePlugin'
+        }
+    }
+}
+
+if (manualPublishing) {
+    publishing {
+        publications {
+            pluginMaven(MavenPublication) {
+                from components.java
+            }
+            samplePluginMarkerMaven(MavenPublication) {
+                groupId gradlePlugin.plugins.sample.id
+                artifactId gradlePlugin.plugins.sample.id + ".gradle.plugin"
+                pom.withXml {
+                    def dependency = asNode().appendNode('dependencies').appendNode('dependency')
+                    dependency.appendNode('groupId', group)
+                    dependency.appendNode('artifactId', name)
+                    dependency.appendNode('version', version)
+                }
+            }
+        }
+    }
+}
+
+artifactory {
+	contextUrl = 'http://localhost:8081/artifactory'
+
+	publish {
+		repository {
+			repoKey = 'example-repo-local'
+			username = 'admin'
+			password = 'password'
+		}
+
+		defaults {
+            println "Trying to read publications"
+			publications 'pluginMaven', 'samplePluginMarkerMaven'
+			properties = ['Deployed By': System.properties['user.name']]
+			publishBuildInfo = true
+			publishArtifacts = true
+			publishPom = true
+			publishIvy = false
+		}
+	}
+
+	clientConfig.includeEnvVars = true
+	clientConfig.envVarsExcludePatterns = '*pwd*,*password*,*PWD*,*PASSWORD*,*Password,*secret*,*SECRET*,*key*,*KEY*,sonar.login'
+	clientConfig.info.buildName = 'test-publish'
+	clientConfig.info.buildNumber = version
+}

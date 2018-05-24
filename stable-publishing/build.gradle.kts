@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    `ivy-publish`
     `signing`
 }
 
@@ -13,21 +14,19 @@ val sourcesJar = tasks.create<Jar>("sourcesJar") {
 }
 
 signing {
-    // sign(publishing.publications)
+    sign(publishing.publications)
 }
-
-// publishing.publications
 
 publishing {
     repositories {
-        maven(url = uri("$buildDir/repo"))
+        maven(url = uri("$buildDir/repos/maven"))
+        ivy(url = uri("$buildDir/repos/ivy"))
     }
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
             artifact(sourcesJar)
             pom {
-                /*
                 name.set("custom-name")
                 description.set("custom-description")
                 url.set("http://example.org/project")
@@ -90,13 +89,23 @@ publishing {
                         post.set("devs@lists.example.org")
                     }
                 }
-                */
-                // last resort
-                withXml {
-                    val scm = asNode().appendNode("scm")
-                    scm.appendNode("connection", "scm:git:git://example.org/some-repo.git")
-                    scm.appendNode("developerConnection", "scm:git:git://example.org/some-repo.git")
-                    scm.appendNode("url", "https://example.org/some-repo")
+            }
+        }
+        create<IvyPublication>("ivyJava") {
+            from(components["java"])
+            artifact(sourcesJar)
+            descriptor {
+                license {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                }
+                author {
+                    name.set("Jane Doe")
+                    url.set("http://example.com/users/jane")
+                }
+                description {
+                    text.set("A concise description of my library")
+                    homepage.set("http://www.example.com/library")
                 }
             }
         }

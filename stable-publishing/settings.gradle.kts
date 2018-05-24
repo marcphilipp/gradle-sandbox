@@ -1,3 +1,3 @@
 rootProject.name = "stable-publishing"
 
-// enableFeaturePreview("STABLE_PUBLISHING")
+enableFeaturePreview("STABLE_PUBLISHING")

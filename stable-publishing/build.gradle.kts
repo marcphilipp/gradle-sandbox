@@ -3,6 +3,13 @@ plugins {
     `maven-publish`
     `ivy-publish`
     `signing`
+    id("com.gradle.build-scan") version "1.13.4"
+}
+
+buildScan {
+    withGroovyBuilder {
+        "server"("http://localhost:5050")
+    }
 }
 
 group = "org.gradle.demo"

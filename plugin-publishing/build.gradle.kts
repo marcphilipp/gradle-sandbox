@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.marcphilipp.gradle"
-version = "1.3"
+version = "2.0"
 
 gradlePlugin {
     (plugins) {

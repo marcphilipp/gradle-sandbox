@@ -8,14 +8,14 @@ group = "de.marcphilipp.gradle"
 version = "2.0"
 
 gradlePlugin {
-    (plugins) {
-        "hello" {
+    plugins {
+        create("hello") {
             id = "de.marcphilipp.gradle.example.hello"
             implementationClass = "de.marcphilipp.gradle.example.HelloPlugin"
             displayName = "Hello plugin"
             description = "Plugin that can say hello"
         }
-        "goodbye" {
+        create("goodbye") {
             id = "de.marcphilipp.gradle.example.goodbye"
             implementationClass = "de.marcphilipp.gradle.example.GoodbyePlugin"
             displayName = "Goodbye plugin"
@@ -44,7 +44,6 @@ publishing {
     publications {
         afterEvaluate {
             getByName<MavenPublication>("pluginMaven") {
-                groupId = "gradle.plugin.$group"
                 pom {
                     name.set("My Example Plugins")
                     description.set("Example Plugins with customized POM")

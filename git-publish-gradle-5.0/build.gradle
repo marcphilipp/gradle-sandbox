@@ -1,0 +1,13 @@
+plugins {
+    id "base"
+	id "com.gradle.build-scan" version "1.16"
+	id "org.ajoberstar.git-publish" version "1.0.1"
+}
+
+gitPublish {
+    repoUri = 'git@github.com:marcphilipp/gradle-sandbox.git'
+    branch = 'gh-pages'
+    contents {
+        from 'src/pages'
+    }
+}

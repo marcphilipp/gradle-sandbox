@@ -1,0 +1,3 @@
+plugin {
+    java
+}

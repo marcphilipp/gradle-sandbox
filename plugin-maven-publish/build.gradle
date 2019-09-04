@@ -1,0 +1,51 @@
+plugins {
+    id("java-gradle-plugin")
+    id("maven-publish")
+}
+
+group = "org.example"
+version = "0.1"
+
+gradlePlugin {
+    plugins {
+        hello {
+            id = "${group}.hello"
+            implementationClass = "de.marcphilipp.gradle.example.HelloPlugin"
+            displayName = "Hello plugin"
+            description = "Plugin that can say hello"
+        }
+    }
+}
+
+publishing {
+    // afterEvaluate is necessary because java-gradle-plugin
+    // creates its publications in an afterEvaluate callback
+    afterEvaluate {
+        publications {
+            withType(MavenPublication) {
+                // customize all publications here
+                pom {
+                    inceptionYear = "2019"
+                }
+            }
+            pluginMaven {
+                // customize main publications here
+                pom {
+                    name = "main artifact"
+                }
+            }
+            helloPluginMarkerMaven {
+                // customize marker publications here
+                pom {
+                    name = "marker artifact"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "local"
+            url = file("repo")
+        }
+    }
+}

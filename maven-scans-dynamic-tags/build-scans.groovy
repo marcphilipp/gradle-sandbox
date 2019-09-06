@@ -13,10 +13,11 @@ buildScanApi.executeOnce('Build environment') { api ->
 buildScanApi.executeOnce('Git version info') {
     buildScanApi.background({ api ->
         def projectDir = session.request.multiModuleProjectDirectory
-        def commit = "git rev-parse --verify HEAD".execute(null, projectDir).text
+        def commit = "git rev-parse --verify HEAD".execute(null, projectDir).text.trim()
         def branch = "git rev-parse --abbrev-ref HEAD".execute(null, projectDir).text
 
         api.value("Git Commit ID", commit)
+        api.link("Source", "https://github.com/marcphilipp/gradle-sandbox/commit/$commit")
         api.value("Git Branch", branch)
 
         def status = StringUtils.chomp('git status --porcelain'.execute().text)

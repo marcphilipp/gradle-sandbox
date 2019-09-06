@@ -10,6 +10,14 @@ buildScanApi.executeOnce('Build environment') { api ->
     }
 }
 
+// Use environment variables set bei Jenkins CI
+buildScanApi.executeOnce('Jenkins environment') { api ->
+    if(System.getenv('CI')) {
+        api.value("BUILD_NUMBER", System.getenv('BUILD_NUMBER'))
+        api.link("Jenkins Job", System.getenv('BUILD_URL'))
+    }
+}
+
 buildScanApi.executeOnce('Git version info') {
     buildScanApi.background({ api ->
         def projectDir = session.request.multiModuleProjectDirectory

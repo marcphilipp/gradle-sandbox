@@ -3,7 +3,7 @@ import org.apache.commons.lang3.StringUtils
 def buildScanApi = session.lookup("com.gradle.maven.extension.api.scan.BuildScanApi")
 
 buildScanApi.executeOnce('Build environment') { api ->
-    if(System.getenv('CI')) {
+    if (System.getenv('CI')) {
         api.tag('CI')
     } else {
         api.tag('LOCAL')

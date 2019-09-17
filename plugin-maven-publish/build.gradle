@@ -34,13 +34,6 @@ gradlePlugin {
 }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-                artifact sourcesJar
-                artifact javadocJar
-        }
-    }
     // afterEvaluate is necessary because java-gradle-plugin
     // creates its publications in an afterEvaluate callback
     afterEvaluate {
@@ -53,6 +46,8 @@ publishing {
             }
             pluginMaven {
                 // customize main publications here
+                artifact sourcesJar
+                artifact javadocJar
                 pom {
                     name = "main artifact"
                 }

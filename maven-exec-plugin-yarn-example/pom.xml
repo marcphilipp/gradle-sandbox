@@ -143,6 +143,7 @@
                                                 </properties>
                                                 <ignoredProperties>
                                                     <!-- Only needed for exec:java -->
+                                                    <ignore>executableDependency</ignore>
                                                     <ignore>longClasspath</ignore>
                                                     <ignore>longModulepath</ignore>
                                                     <!-- Whether to send logs to a file or not -->
@@ -156,21 +157,6 @@
                                                     <ignore>session</ignore>
                                                 </ignoredProperties>
                                             </inputs>
-                                            <nestedProperties>
-                                                <property>
-                                                    <name>executableDependency</name>
-                                                    <inputs>
-                                                        <properties>
-                                                            <property>
-                                                                <name>groupId</name>
-                                                            </property>
-                                                            <property>
-                                                                <name>artifactId</name>
-                                                            </property>
-                                                        </properties>
-                                                    </inputs>
-                                                </property>
-                                            </nestedProperties>
                                             <outputs>
                                                 <directories>
                                                     <directory>

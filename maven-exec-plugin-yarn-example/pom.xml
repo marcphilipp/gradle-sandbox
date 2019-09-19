@@ -93,39 +93,84 @@
                                                 </fileSets>
                                                 <properties>
                                                     <property>
+                                                        <name>addOutputToClasspath</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>addResourcesToClasspath</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>arguments</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>async</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>asyncDestroyOnShutdown</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>classpathScope</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>commandlineArgs</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>environmentScript</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>environmentVariables</name>
+                                                    </property>
+                                                    <property>
                                                         <name>executable</name>
                                                     </property>
-                                                    <propert>
-                                                        <name>arguments</name>
-                                                    </propert>
+                                                    <property>
+                                                        <name>skip</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>sourceRoot</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>successCodes</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>testSourceRoot</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>toolchain</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>workingDirectory</name>
+                                                    </property>
                                                 </properties>
                                                 <ignoredProperties>
-                                                    <ignore>addOutputToClasspath</ignore>
-                                                    <ignore>addResourcesToClasspath</ignore>
-                                                    <ignore>async</ignore>
-                                                    <ignore>asyncDestroyOnShutdown</ignore>
-                                                    <ignore>basedir</ignore>
-                                                    <ignore>classpathScope</ignore>
-                                                    <ignore>commandlineArgs</ignore>
-                                                    <ignore>environmentScript</ignore>
-                                                    <ignore>environmentVariables</ignore>
-                                                    <ignore>executableDependency</ignore>
-                                                    <ignore>localRepository</ignore>
+                                                    <!-- Only needed for exec:java -->
                                                     <ignore>longClasspath</ignore>
                                                     <ignore>longModulepath</ignore>
+                                                    <!-- Whether to send logs to a file or not -->
                                                     <ignore>outputFile</ignore>
+                                                    <!-- internal mojo properties -->
+                                                    <ignore>basedir</ignore>
+                                                    <ignore>localRepository</ignore>
                                                     <ignore>pluginDependencies</ignore>
                                                     <ignore>project</ignore>
                                                     <ignore>remoteRepositories</ignore>
                                                     <ignore>session</ignore>
-                                                    <ignore>skip</ignore>
-                                                    <ignore>sourceRoot</ignore>
-                                                    <ignore>successCodes</ignore>
-                                                    <ignore>testSourceRoot</ignore>
-                                                    <ignore>toolchain</ignore>
-                                                    <ignore>workingDirectory</ignore>
                                                 </ignoredProperties>
                                             </inputs>
+                                            <nestedProperties>
+                                                <property>
+                                                    <name>executableDependency</name>
+                                                    <inputs>
+                                                        <properties>
+                                                            <property>
+                                                                <name>groupId</name>
+                                                            </property>
+                                                            <property>
+                                                                <name>artifactId</name>
+                                                            </property>
+                                                        </properties>
+                                                    </inputs>
+                                                </property>
+                                            </nestedProperties>
                                             <outputs>
                                                 <directories>
                                                     <directory>

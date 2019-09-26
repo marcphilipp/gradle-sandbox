@@ -1,0 +1,28 @@
+<project name="ant-call-maven" basedir=".">
+  <description>
+    An Ant build that call maven
+  </description>
+
+  <macrodef name="mvn">
+    <attribute name="pom" default="pom.xml" />
+    <attribute name="dir" default="" />
+    <element name="maven-goals" implicit="true" description="Maven goals to execute" />
+    <sequential>
+
+      <property name="maven-wrapper"
+                location="${basedir}/mvnw"/>
+      <exec executable="${maven-wrapper}" dir="@{dir}">
+        <arg value="-f@{pom}" />
+        <maven-goals/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <target name="mvn-clean-install">
+    <mvn>
+      <arg value="clean" />
+      <arg value="install" />
+    </mvn>
+  </target>
+
+</project>

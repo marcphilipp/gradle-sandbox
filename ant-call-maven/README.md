@@ -12,7 +12,7 @@ The then macro configures an [Exec task](https://ant.apache.org/manual/Tasks/exe
 The way this example is set up it will publish build scans against https://scans.gradle.com, asking the user to agree to the Terms of Service.
 Since programs started by the [Exec task](https://ant.apache.org/manual/Tasks/exec.html) can not react to user input this would cause the build to hang at the end.
 For this reason Maven builds are started in batch mode from ant.
-This will in turn result in no build scan being published to scnas.gradle.com.
+This will in turn result in no build scan being published to scans.gradle.com.
 
 There are several options on how to fix this depending on your situation:
 

@@ -9,10 +9,10 @@
     <element name="maven-goals" implicit="true" description="Maven goals to execute" />
     <sequential>
 
-      <property name="maven-wrapper"
-                location="${basedir}/mvnw"/>
+      <property name="maven-wrapper" location="${basedir}/mvnw"/>
       <exec executable="${maven-wrapper}" dir="@{dir}">
         <arg value="-f@{pom}" />
+        <arg value="--batch-mode" />
         <maven-goals/>
       </exec>
     </sequential>

@@ -36,6 +36,13 @@
                             <goal>add-source</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>test-clojure</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -56,6 +63,50 @@
                                             <outputs>
                                                 <cacheableBecause>compilation is CPU-bound</cacheableBecause>
                                             </outputs>
+                                            <inputs>
+                                                <properties>
+                                                    <property>
+                                                        <name>cleanAOTNamespaces</name>
+                                                    </property>
+                                                </properties>
+                                                <ignoredProperties>
+                                                    <ignore>temporaryOutputDirectory</ignore>
+                                                </ignoredProperties>
+                                            </inputs>
+                                        </execution>
+                                        <execution>
+                                            <id>test-clojure</id>
+                                            <outputs>
+                                                <cacheableBecause>test execution is time-consuming</cacheableBecause>
+                                            </outputs>
+                                            <inputs>
+                                                <fileSets>
+                                                    <fileSet>
+                                                        <name>testScript</name>
+                                                        <normalization>IGNORED_PATH</normalization>
+                                                    </fileSet>
+                                                </fileSets>
+                                                <properties>
+                                                    <property>
+                                                        <name>junitOutput</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>skip</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>skipTests</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>testScript</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>xmlEscapeOutput</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>test</name>
+                                                    </property>
+                                                </properties>
+                                            </inputs>
                                         </execution>
                                     </executions>
                                     <inputs>
@@ -84,9 +135,6 @@
                                         <properties>
                                             <property>
                                                 <name>charset</name>
-                                            </property>
-                                            <property>
-                                                <name>cleanAOTNamespaces</name>
                                             </property>
                                             <property>
                                                 <name>compileDeclaredNamespaceOnly</name>
@@ -134,7 +182,6 @@
                                             <ignore>spawnInteractiveConsoleOnWindows</ignore>
                                             <ignore>warnOnReflection</ignore>
                                             <ignore>windowsConsole</ignore>
-                                            <ignore>temporaryOutputDirectory</ignore>
                                             <ignore>workingDirectory</ignore>
                                         </ignoredProperties>
                                     </inputs>

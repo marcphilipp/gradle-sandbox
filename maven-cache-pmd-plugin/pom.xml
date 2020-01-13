@@ -31,14 +31,229 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.12.0</version>
+        <!-- Configure pmd plugin to run during verify -->
         <executions>
           <execution>
             <goals>
+              <!-- This will cause pmd:pmd and pmd:check to be executed -->
               <goal>check</goal>
+              <!-- This will cause pmd:cpd and pmd:cpd-check to be executed -->
+              <goal>cpd-check</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <!-- Configure Gradle Enterprise Maven Extension to cache pmd:pmd execution, because this is the resource intense goal -->
+        <plugin>
+          <groupId>com.gradle</groupId>
+          <artifactId>gradle-enterprise-maven-extension</artifactId>
+          <configuration>
+            <gradleEnterprise>
+              <plugins>
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-pmd-plugin</artifactId>
+                  <inputs>
+                    <properties>
+                      <property>
+                        <name>format</name>
+                      </property>
+                      <property>
+                        <name>linkXRef</name>
+                      </property>
+                      <property>
+                        <name>includeTests</name>
+                      </property>
+                      <property>
+                        <name>aggregate</name>
+                      </property>
+                      <property>
+                        <name>sourceEncoding</name>
+                      </property>
+                      <property>
+                        <name>outputEncoding</name>
+                      </property>
+                      <property>
+                        <name>includeXmlInSite</name>
+                      </property>
+                      <property>
+                        <name>skipEmptyReport</name>
+                      </property>
+                      <!-- Duplicated in CpdReport and PmdReport, so we declare it here -->
+                      <property>
+                        <name>language</name>
+                      </property>
+                      <!-- Duplicated in CpdReport and PmdReport, so we declare it here -->
+                      <property>
+                        <name>skip</name>
+                      </property>
+                    </properties>
+                    <ignoredProperties>
+                      <!-- Ignore the target directory and use the generated file as an output instead -->
+                      <ignore>targetDirectory</ignore>
+                      <ignore>project</ignore>
+                      <ignore>reactorProjects</ignore>
+                      <ignore>showPmdLog</ignore>
+                    </ignoredProperties>
+                    <fileSets>
+                      <fileSet>
+                        <name>xrefLocation</name>
+                        <normalization>NAME_ONLY</normalization>
+                      </fileSet>
+                      <fileSet>
+                        <name>xrefTestLocation</name>
+                        <normalization>NAME_ONLY</normalization>
+                      </fileSet>
+                      <fileSet>
+                        <name>compileSourceRoots</name>
+                        <includesProperty>includes</includesProperty>
+                        <excludesProperty>excludes</excludesProperty>
+                      </fileSet>
+                      <fileSet>
+                        <name>testSourceRoots</name>
+                        <includesProperty>includes</includesProperty>
+                        <excludesProperty>excludes</excludesProperty>
+                      </fileSet>
+                      <fileSet>
+                        <name>excludeRoots</name>
+                      </fileSet>
+                      <fileSet>
+                        <name>excludeFromFailureFile</name>
+                        <normalization>NAME_ONLY</normalization>
+                      </fileSet>
+                    </fileSets>
+                  </inputs>
+                  <executions>
+                    <execution>
+                      <id>pmd</id>
+                      <inputs>
+                        <properties>
+                          <property>
+                            <name>targetJdk</name>
+                          </property>
+                          <property>
+                            <name>minimumPriority</name>
+                          </property>
+                          <property>
+                            <name>typeResolution</name>
+                          </property>
+                          <property>
+                            <name>benchmark</name>
+                          </property>
+                          <property>
+                            <name>suppressMarker</name>
+                          </property>
+                          <property>
+                            <name>skipPmdError</name>
+                          </property>
+                          <property>
+                            <name>renderProcessingErrors</name>
+                          </property>
+                          <property>
+                            <name>renderRuleViolationPriority</name>
+                          </property>
+                          <property>
+                            <name>renderViolationsByPriority</name>
+                          </property>
+                        </properties>
+                        <ignoredProperties>
+                          <!-- Gradle Enterprise is used for caching -->
+                          <ignore>analysisCache</ignore>
+                          <ignore>session</ignore>
+                        </ignoredProperties>
+                        <fileSets>
+                          <fileSet>
+                            <name>rulesets</name>
+                            <normalization>NAME_ONLY</normalization>
+                          </fileSet>
+                        </fileSets>
+                      </inputs>
+                      <localState>
+                        <fileSets>
+                          <fileSet>
+                            <name>analysisCacheLocation</name>
+                          </fileSet>
+                        </fileSets>
+                      </localState>
+                      <outputs>
+                        <files>
+                          <!-- This has to be changed if the PMD report mojo outputDirectory setting is changed -->
+                          <file>
+                            <name>HTML report</name>
+                            <path>${project.reporting.outputDirectory}/pmd.html</path>
+                          </file>
+                          <!-- These have to be changed if the PMD report mojo targetDirectory setting is changed -->
+                          <file>
+                            <name>CSV report</name>
+                            <path>${project.build.directory}/pmd.csv</path>
+                          </file>
+                          <file>
+                            <name>XML report</name>
+                            <path>${project.build.directory}/pmd.xml</path>
+                          </file>
+                          <file>
+                            <name>Text report</name>
+                            <path>${project.build.directory}/pmd.txt</path>
+                          </file>
+                          <file>
+                            <name>benchmarkOutputFilename</name>
+                          </file>
+                        </files>
+                        <cacheableBecause>this plugin has CPU-bound goals with well-defined inputs and outputs</cacheableBecause>
+                      </outputs>
+                    </execution>
+                    <execution>
+                      <id>cpd</id>
+                      <inputs>
+                        <properties>
+                          <property>
+                            <name>minimumTokens</name>
+                          </property>
+                          <property>
+                            <name>ignoreLiterals</name>
+                          </property>
+                          <property>
+                            <name>ignoreIdentifiers</name>
+                          </property>
+                          <property>
+                            <name>ignoreAnnotations</name>
+                          </property>
+                        </properties>
+                      </inputs>
+                      <outputs>
+                        <files>
+                          <!-- This has to be changed if the CPD report mojo outputDirectory setting is changed -->
+                          <file>
+                            <name>HTML report</name>
+                            <path>${project.reporting.outputDirectory}/cpd.html</path>
+                          </file>
+                          <!-- These have to be changed if the CPD report mojo targetDirectory setting is changed -->
+                          <file>
+                            <name>CSV report</name>
+                            <path>${project.build.directory}/cpd.csv</path>
+                          </file>
+                          <file>
+                            <name>XML report</name>
+                            <path>${project.build.directory}/cpd.xml</path>
+                          </file>
+                          <file>
+                            <name>Text report</name>
+                            <path>${project.build.directory}/cpd.txt</path>
+                          </file>
+                        </files>
+                        <cacheableBecause>this plugin has CPU-bound goals with well-defined inputs and outputs</cacheableBecause>
+                      </outputs>
+                    </execution>
+                  </executions>
+                </plugin>
+              </plugins>
+            </gradleEnterprise>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 </project>

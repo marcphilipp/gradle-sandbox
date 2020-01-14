@@ -101,11 +101,9 @@
                     <fileSets>
                       <fileSet>
                         <name>xrefLocation</name>
-                        <normalization>NAME_ONLY</normalization>
                       </fileSet>
                       <fileSet>
                         <name>xrefTestLocation</name>
-                        <normalization>NAME_ONLY</normalization>
                       </fileSet>
                       <fileSet>
                         <name>compileSourceRoots</name>
@@ -122,7 +120,7 @@
                       </fileSet>
                       <fileSet>
                         <name>excludeFromFailureFile</name>
-                        <normalization>NAME_ONLY</normalization>
+                        <normalization>IGNORED_PATH</normalization>
                       </fileSet>
                     </fileSets>
                   </inputs>

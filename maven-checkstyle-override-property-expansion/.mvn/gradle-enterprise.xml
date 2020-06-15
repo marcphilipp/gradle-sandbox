@@ -1,0 +1,5 @@
+<gradleEnterprise>
+    <server>
+        <url>https://e.grdev.net</url>
+    </server>
+</gradleEnterprise>

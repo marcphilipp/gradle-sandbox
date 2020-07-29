@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.io.FileWriter;
 import java.nio.file.Files;
+import java.util.Collections;
+
 import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.testkit.runner.BuildResult;
 import org.junit.Test;
@@ -24,9 +26,7 @@ public class GradleTestkitCrossJavaVersionPluginFunctionalTest {
         Files.createDirectories(projectDir.toPath());
         writeString(new File(projectDir, "settings.gradle"), "");
         writeString(new File(projectDir, "build.gradle"),
-            "plugins {" +
-            "  id('org.example.greeting')" +
-            "}");
+            "plugins { id('org.example.greeting') }");
 
         String javaHome = System.getProperty("test.java.home");
         assertNotNull("javaHome must not be null", javaHome);
@@ -34,14 +34,15 @@ public class GradleTestkitCrossJavaVersionPluginFunctionalTest {
 
         // Run the build
         GradleRunner runner = GradleRunner.create();
+        runner.withGradleVersion("5.4.1");
         runner.forwardOutput();
         runner.withPluginClasspath();
-        runner.withArguments("greeting");
+        runner.withArguments("printJavaVersion");
         runner.withProjectDir(projectDir);
         BuildResult result = runner.build();
 
         // Verify the result
-        assertTrue(result.getOutput().contains("Hello from plugin 'org.example.greeting'"));
+        assertTrue(result.getOutput().contains("1.8"));
     }
 
     private void writeString(File file, String string) throws IOException {

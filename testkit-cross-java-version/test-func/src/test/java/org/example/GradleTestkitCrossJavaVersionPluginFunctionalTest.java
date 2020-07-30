@@ -39,10 +39,12 @@ public class GradleTestkitCrossJavaVersionPluginFunctionalTest {
         runner.withPluginClasspath();
         runner.withArguments("throwException");
         runner.withProjectDir(projectDir);
-        BuildResult result = runner.build();
+        BuildResult result = runner.buildAndFail();
 
         // Verify the result
-        assertTrue(result.getOutput().contains("1.8"));
+        String output = result.getOutput();
+        assertTrue(output.contains("Execution failed for task ':throwException'"));
+        assertTrue(output.contains("1.8"));
     }
 
     private void writeString(File file, String string) throws IOException {

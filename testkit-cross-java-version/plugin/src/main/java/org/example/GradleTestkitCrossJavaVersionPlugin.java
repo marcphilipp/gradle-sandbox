@@ -9,7 +9,7 @@ public class GradleTestkitCrossJavaVersionPlugin implements Plugin<Project> {
     @Override
     public void apply(Project target) {
         target.getTasks().register("throwException", task -> task.doFirst(__ -> {
-            throw new GradleException("boom");
+            throw new GradleException(JavaVersion.current().toString());
         }));
     }
 }

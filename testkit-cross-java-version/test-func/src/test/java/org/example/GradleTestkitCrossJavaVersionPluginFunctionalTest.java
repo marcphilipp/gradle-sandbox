@@ -37,7 +37,7 @@ public class GradleTestkitCrossJavaVersionPluginFunctionalTest {
         runner.withGradleVersion("5.4.1");
         runner.forwardOutput();
         runner.withPluginClasspath();
-        runner.withArguments("printJavaVersion");
+        runner.withArguments("throwException");
         runner.withProjectDir(projectDir);
         BuildResult result = runner.build();
 

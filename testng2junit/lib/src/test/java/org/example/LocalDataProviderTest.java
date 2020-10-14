@@ -4,19 +4,12 @@
 package org.example;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class LocalDataProviderTest {
 
-    public static Object[][] createData1() {
-        return new Object[][]{
-                {"Cedric", 36},
-                {"Anne", 37},
-        };
-    }
-
     @ParameterizedTest
-    @MethodSource("createData1")
+    @CsvSource({"Cedric, 36", "Anne, 37"})
     public void verifyData1(String n1, Integer n2) {
         System.out.println(n1 + " " + n2);
     }

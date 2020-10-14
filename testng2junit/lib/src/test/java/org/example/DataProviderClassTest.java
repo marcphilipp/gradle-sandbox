@@ -1,18 +1,18 @@
 package org.example;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class DataProviderClassTest {
 
-    @Test(dataProvider = "test1", dataProviderClass = StaticProvider.class)
+    @ParameterizedTest
+    @MethodSource("org.example.DataProviderClassTest$StaticProvider#createData1")
     public void verifyData1(String n1, Integer n2) {
         System.out.println(n1 + " " + n2);
     }
 
     public static class StaticProvider {
 
-        @DataProvider(name = "test1")
         public static Object[][] createData1() {
             return new Object[][]{
                     {"Cedric", 36},

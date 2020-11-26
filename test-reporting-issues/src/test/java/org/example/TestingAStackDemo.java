@@ -64,7 +64,8 @@ class TestingAStackDemo {
 
             @Test
             @DisplayName("it is no longer empty")
-            void isNotEmpty() {
+            void isNotEmpty() throws InterruptedException {
+                Thread.sleep(5_000);
                 assertFalse(stack.isEmpty());
             }
 

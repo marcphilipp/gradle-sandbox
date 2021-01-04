@@ -1,10 +1,20 @@
 plugins {
+    id("my-test-distribution") // indirectly applies "com.gradle.enterprise.test-distribution"
     `java-library`
-    id("gradlebuild.unittest-and-compile")
 }
+
+println(com.gradle.enterprise.gradleplugin.testdistribution.TestDistributionPlugin::class.java.classLoader)
 
 repositories {
     mavenCentral()
+}
+
+tasks.test {
+    useJUnitPlatform()
+    distribution {
+        enabled.set(true)
+        maxLocalExecutors.set(0)
+    }
 }
 
 dependencies {

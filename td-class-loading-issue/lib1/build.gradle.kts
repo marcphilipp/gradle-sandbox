@@ -1,5 +1,6 @@
 plugins {
-    id("com.gradle.enterprise.test-distribution") version "1.3"
+    id("com.gradle.enterprise.test-distribution")
+    id("org.gradle.test-retry")
     `java-library`
 }
 

@@ -1,5 +1,5 @@
 plugins {
-    id("my-test-distribution") // indirectly applies "com.gradle.enterprise.test-distribution"
+    id("com.gradle.enterprise.test-distribution")
     `java-library`
 }
 

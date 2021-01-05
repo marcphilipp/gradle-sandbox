@@ -1,3 +1,10 @@
+pluginManagement {
+    plugins {
+        id("com.gradle.enterprise.test-distribution") version "1.3"
+        id("org.gradle.test-retry") version "1.2.0"
+    }
+}
+
 plugins {
     id("com.gradle.enterprise") version "3.5"
 }
@@ -10,8 +17,6 @@ gradleEnterprise {
 }
 
 rootProject.name = "td-class-loading-issue"
-
-includeBuild("build-logic")
 
 include("lib0")
 include("lib1")

@@ -2,6 +2,6 @@
     <extension>
         <groupId>com.gradle</groupId>
         <artifactId>gradle-enterprise-maven-extension</artifactId>
-        <version>1.13.1-branch-marc_mvn_14157_fix_cross_platform_fingerprinting-prerelease</version>
+        <version>1.13.1-branch-marc_mvn_14157_fix_cross_platform_fingerprinting-20220330142358</version>
     </extension>
 </extensions>

@@ -12,6 +12,6 @@ public class LoggingTestExecutionListener implements TestExecutionListener {
 
     @Override
     public void testPlanExecutionFinished(TestPlan testPlan) {
-        System.out.println("Test plan finsihed");
+        System.out.println("Test plan finished");
     }
 }

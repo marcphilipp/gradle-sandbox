@@ -1,0 +1,59 @@
+import com.gradle.enterprise.gradleplugin.GradleEnterpriseExtension
+import com.gradle.enterprise.gradleplugin.GradleEnterprisePlugin
+import com.gradle.scan.plugin.BuildScanPlugin
+import com.gradle.enterprise.gradleplugin.testdistribution.TestDistributionPlugin
+import org.gradle.util.GradleVersion
+
+initscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("com.gradle:gradle-enterprise-gradle-plugin:3.10")
+        classpath("com.gradle.enterprise:test-distribution-gradle-plugin:2.3.1")
+    }
+}
+
+def isTopLevelBuild = gradle.getParent() == null
+
+if (isTopLevelBuild) {
+    def gradleVersion = GradleVersion.current().baseVersion
+    def atLeastGradle5 = gradleVersion >= GradleVersion.version("5.0")
+    def atLeastGradle6 = gradleVersion >= GradleVersion.version("6.0")
+
+    if (atLeastGradle6) {
+        beforeSettings { settings ->
+            if (!settings.pluginManager.hasPlugin("com.gradle.enterprise")) {
+                settings.pluginManager.apply(GradleEnterprisePlugin)
+            }
+            if (!settings.pluginManager.hasPlugin("com.gradle.enterprise.test-distribution")) {
+                settings.pluginManager.apply(TestDistributionPlugin)
+            }
+            configure(settings.extensions.getByType(GradleEnterpriseExtension))
+        }
+    } else if (atLeastGradle5) {
+        rootProject {
+            pluginManager.apply(BuildScanPlugin)
+            pluginManager.apply(TestDistributionPlugin)
+            configure(extensions.getByType(GradleEnterpriseExtension))
+        }
+    }
+    allprojects {
+        afterEvaluate {
+            tasks.withType(Test).configureEach {
+                distribution {
+                    enabled.convention(true)
+                }
+            }
+        }
+    }
+}
+
+def configure(GradleEnterpriseExtension gradleEnterprise) {
+    gradleEnterprise.with {
+        server = "https://example.com"
+        buildScan {
+            publishAlways()
+        }
+    }
+}

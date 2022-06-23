@@ -1,0 +1,49 @@
+import org.gradle.util.internal.VersionNumber
+
+plugins {
+    id 'java-library'
+    id 'org.gradle.test-retry'
+}
+
+repositories {
+    mavenCentral()
+}
+
+def jmockitIncludesTestEngine = VersionNumber.parse(jmockit) < VersionNumber.parse("1.44")
+
+dependencies {
+    testImplementation 'org.testng:testng:6.14.3'
+    testImplementation "org.jmockit:jmockit:${jmockit}"
+
+    testRuntimeOnly('org.junit.support:testng-engine:1.0.2') {
+        because 'it allows running TestNG tests on the JUnit Platform which is required for Test Distribution'
+    }
+
+    if (jmockitIncludesTestEngine) {
+        testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.8.2') {
+            because "jmockit's TestEngine implementation needs it"
+        }
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform {
+        includeEngines('testng')
+    }
+    distribution {
+        enabled = true
+    }
+    retry {
+        maxRetries = 1
+    }
+    if (jmockitIncludesTestEngine) {
+        systemProperty('jdk.attach.allowAttachSelf', 'true')
+    } else {
+        test.jvmArgumentProviders << new CommandLineArgumentProvider() {
+            @Override
+            Iterable<String> asArguments() {
+                ["-javaagent:${it.classpath.find { it.name.contains("jmockit") }.absolutePath}"]
+            }
+        }
+    }
+}

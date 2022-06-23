@@ -1,0 +1,19 @@
+pluginManagement {
+    plugins {
+        id "org.gradle.test-retry" version "1.4.0"
+    }
+}
+
+plugins {
+    id "com.gradle.enterprise" version "3.8"
+    id "com.gradle.enterprise.test-distribution" version "2.3.2"
+}
+
+gradleEnterprise {
+    server = "https://e.grdev.net"
+    buildScan {
+        publishAlways()
+    }
+}
+
+rootProject.name = 'testng-jmockit-reproducer'

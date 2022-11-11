@@ -1,0 +1,54 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.api.tasks.testing.logging.TestLoggingContainer
+
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+configurations.all {
+    transitive = false
+}
+
+dependencies {
+    testImplementation("org.testng:testng:6.14.3")
+    testImplementation("org.jmockit:jmockit:1.31")
+    testRuntimeOnly("com.beust:jcommander:1.78")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.8.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-engine:1.8.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-commons:1.8.2")
+    testRuntimeOnly("org.junit.support:testng-engine:1.0.4")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testRuntimeOnly("org.opentest4j:opentest4j:1.2.0")
+}
+
+tasks.test {
+    systemProperty("jdk.attach.allowAttachSelf", "true")
+    useJUnitPlatform{
+    }
+//    jvmArgumentProviders << new CommandLineArgumentProvider() {
+//        @Override
+//        Iterable<String> asArguments() {
+//            ["-javaagent:${it.classpath.find { it.name.contains("jmockit") }.absolutePath}"]
+//        }
+//    }
+
+//    testLogging { TestLoggingContainer loggingContainer ->
+//        // lifecycle
+//        loggingContainer.displayGranularity = 4
+//        loggingContainer.events 'failed'
+//        loggingContainer.exceptionFormat = 'short'
+//        loggingContainer.showCauses = true
+//        loggingContainer.showStandardStreams = false
+//    }
+}

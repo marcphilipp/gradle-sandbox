@@ -6,12 +6,20 @@ package org.example;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.List;
+
 import static org.testng.Assert.*;
 
 public class SomeTest {
+
     @BeforeClass
     public static void beforeClass() {
         Assert.fail();
+    }
+
+    @BeforeMethod
+    public static void beforeMethod() {
+        throw new ClassCastException("message");
     }
 
     @Test

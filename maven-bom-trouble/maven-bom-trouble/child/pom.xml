@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>child</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Override the version of JUnit that would otherwise come in from importing guicey-bom below -->
+<!--            <dependency>-->
+<!--                <groupId>org.junit</groupId>-->
+<!--                <artifactId>junit-bom</artifactId>-->
+<!--                <version>${dependency.junit5.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>ru.vyarus.guicey</groupId>
+                <artifactId>guicey-bom</artifactId>
+                <version>5.7.0-1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>leaf</module>
+    </modules>
+
+</project>

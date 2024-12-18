@@ -1,0 +1,2 @@
+[libraries]
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.10.3" }

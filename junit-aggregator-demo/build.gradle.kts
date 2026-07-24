@@ -4,11 +4,11 @@ plugins {
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    maven(url = "https://jitpack.io")
 }
 
 dependencies {
-    testImplementation("org.junit:junit-aggregator:6.0.0-SNAPSHOT")
+    testImplementation("com.github.junit-team.junit-framework:junit-aggregator:experiment~junit-aggregator-SNAPSHOT")
 }
 
 tasks {
